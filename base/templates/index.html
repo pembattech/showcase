@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section id="wrapper--hero" class="section--page">
+    <div>
+        <h1 id="user-name">Pemba Tamang</h1>
+        <p id="bio"> {{ user_profile.bio }}</p>
+        <p id="email">✉️ {{ user_profile.email }}</p>
+    </div>
+</section>
+
+{% endblock %}
