@@ -9,3 +9,22 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
     
+class TechStack(models.Model):
+    language = models.CharField(max_length=255, null=True, blank=False)
+    framework = models.CharField(max_length=255, null=True, blank=False)
+    database = models.CharField(max_length=255, null=True, blank=False)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.language
+
+class Project(models.Model):
+    project_title = models.CharField(max_length=255)
+    project_description = models.CharField(max_length=255)
+    project_livedemo = models.CharField(max_length=255)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return self.project_title
+
+

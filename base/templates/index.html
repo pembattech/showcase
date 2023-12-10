@@ -3,11 +3,27 @@
 {% block content %}
 
 <section id="wrapper--hero" class="section--page">
+    <img id="profile-pic" src="./assets/images/profile_pic.JPG">
     <div>
         <h1 id="user-name">Pemba Tamang</h1>
         <p id="bio"> {{ user_profile.bio }}</p>
         <p id="email">✉️ {{ user_profile.email }}</p>
     </div>
+</section>
+
+
+<section class="section--page">
+    <h2>Tech stack</h2>
+
+    <div id="wrapper--techstack__items">
+        <div class="card--techstack"><span>{{ tech_stack.language }}</span></div>
+        <div class="card--techstack"><span>{{ tech_stack.framework }}</span></div>
+        <div class="card--techstack"><span>{{ tech_stack.database }}</span></div>
+    </div>
+</section>
+
+<section class="section--page-nopaddin-btm">
+    <h2>Projects</h2>
 </section>
 
 {% endblock %}
