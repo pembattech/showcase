@@ -5,6 +5,10 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     email = models.CharField(max_length=255)
     bio = models.CharField(max_length=255)
+    github_url = models.URLField(max_length=255, null=True, blank= False)
+    linkedin_url = models.URLField(max_length=255, null=True, blank= False)
+    instagram_url = models.URLField(max_length=255, null=True, blank= False)
+    resume_url = models.URLField(max_length=255, null=True, blank= False)
 
     def __str__(self):
         return self.user.username

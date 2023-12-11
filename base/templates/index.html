@@ -3,11 +3,22 @@
 {% block content %}
 
 <section id="wrapper--hero" class="section--page">
-    <img id="profile-pic" src="./assets/images/profile_pic.JPG">
+    <img id="profile-pic" src="">
     <div>
         <h1 id="user-name">Pemba Tamang</h1>
         <p id="bio"> {{ user_profile.bio }}</p>
         <p id="email">✉️ {{ user_profile.email }}</p>
+    </div>
+</section>
+
+<section class="section--page">
+
+    <div id="socials--list">
+        <a href="{{ user_profile.instagram_url }}" target="_blank">Instagram</a>
+        <a href="{{ user_profile.linkedin_url }}" target="_blank">Linkedin</a>
+        <a href="{{ user_profile.github_url }}" target="_blank">Github</a>
+        <a href="{{ user_profile.resume_url }}" target="_blank">Download
+            Resume</a>
     </div>
 </section>
 
@@ -26,4 +37,11 @@
     <h2>Projects</h2>
 </section>
 
+</div>
+
+{% include 'projects.html' %}
+
+
+</body>
+</html>
 {% endblock %}
