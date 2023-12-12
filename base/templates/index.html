@@ -2,40 +2,47 @@
 
 {% block content %}
 
-<section id="wrapper--hero" class="section--page">
-    <img id="profile-pic" src="">
-    <div>
-        <h1 id="user-name">Pemba Tamang</h1>
-        <p id="bio"> {{ user_profile.bio }}</p>
-        <p id="email">✉️ {{ user_profile.email }}</p>
-    </div>
-</section>
+{% if request.user.is_authenticated %}
+<div class="authenticated_user">
+    <p> Hi {{ user }} </p>
+</div>
+{% endif %}
 
-<section class="section--page">
+<div id="container--main">
+    <section id="wrapper--hero" class="section--page">
+        <img id="profile-pic" src="">
+        <div>
+            <h1 id="user-name">Pemba Tamang</h1>
+            <p id="bio"> {{ user_profile.bio }}</p>
+            <p id="email">✉️ {{ user_profile.email }}</p>
+        </div>
+    </section>
 
-    <div id="socials--list">
-        <a href="{{ user_profile.instagram_url }}" target="_blank">Instagram</a>
-        <a href="{{ user_profile.linkedin_url }}" target="_blank">Linkedin</a>
-        <a href="{{ user_profile.github_url }}" target="_blank">Github</a>
-        <a href="{{ user_profile.resume_url }}" target="_blank">Download
-            Resume</a>
-    </div>
-</section>
+    <section class="section--page">
+
+        <div id="socials--list">
+            <a href="{{ user_profile.instagram_url }}" target="_blank">Instagram</a>
+            <a href="{{ user_profile.linkedin_url }}" target="_blank">Linkedin</a>
+            <a href="{{ user_profile.github_url }}" target="_blank">Github</a>
+            <a href="{{ user_profile.resume_url }}" target="_blank">Download
+                Resume</a>
+        </div>
+    </section>
 
 
-<section class="section--page">
-    <h2>Tech stack</h2>
+    <section class="section--page">
+        <h2>Tech stack</h2>
 
-    <div id="wrapper--techstack__items">
-        <div class="card--techstack"><span>{{ tech_stack.language }}</span></div>
-        <div class="card--techstack"><span>{{ tech_stack.framework }}</span></div>
-        <div class="card--techstack"><span>{{ tech_stack.database }}</span></div>
-    </div>
-</section>
+        <div id="wrapper--techstack__items">
+            <div class="card--techstack"><span>{{ tech_stack.language }}</span></div>
+            <div class="card--techstack"><span>{{ tech_stack.framework }}</span></div>
+            <div class="card--techstack"><span>{{ tech_stack.database }}</span></div>
+        </div>
+    </section>
 
-<section class="section--page-nopaddin-btm">
-    <h2>Projects</h2>
-</section>
+    <section class="section--page-nopaddin-btm">
+        <h2>Projects</h2>
+    </section>
 
 </div>
 
@@ -43,5 +50,6 @@
 
 
 </body>
+
 </html>
 {% endblock %}
