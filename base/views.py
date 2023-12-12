@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 
 from .models import UserProfile, TechStack, Project
+from .forms import *
 
 
 
@@ -27,7 +28,36 @@ def home(request):
         return render(request, 'index.html', context=context)
     else:
         return render(request, '404.html')
+    
+    
+def update_showcase(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        
+        user_profile = get_object_or_404(UserProfile, user__username = username)
+        techstack = get_object_or_404(TechStack, user=user_profile)
+        project = get_object_or_404(Project, user = user_profile)
 
+        userprofile_form = UserProfileForm(instance=user_profile)
+        techstack_form = TechStackForm(instance=techstack)
+        project_form = ProjectForm(instance=project)
+
+        if request.method == "POST":
+            userprofile_form = UserProfileForm(request.POST, instance=user_profile)
+            techstack_form = TechStackForm(request.POST, instance=techstack)
+            project_form = ProjectForm(request.POST, instance=project)
+            
+            if userprofile_form.is_valid() and techstack_form.is_valid() and project_form.is_valid():
+
+                userprofile_form.save()
+                techstack_form.save()
+                project_form.save()
+                
+                return redirect('home')
+                
+        return render(request, 'update_showcase.html', {'userprofile_form': userprofile_form, 'techstack_form': techstack_form, 'project_form': project_form})
+    else:
+        return redirect('home')
 
 def logout_user(request):
     if request.user.is_authenticated:
