@@ -1,87 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<style>
-  form {
-    padding: 0 20px;
-  }
-
-  .form-box {
-    display: flex;
-    gap: 25px;
-  }
-
-  .input-style,
-  .button-style,
-  .textarea-style {
-    color: var(--secondaryTextColor);
-    background-color: var(--mainBgColor);
-    padding: 10px;
-    border-radius: 5px;
-    resize: none;
-  }
-
-  .input-style {
-    width: 100%;
-    border: 1px solid var(--mainBorderColor);
-  }
-
-  .button-style {
-    border: 1px solid var(--mainBorderColor);
-    border-radius: 5px;
-    padding: 0.5em 1em;
-    width: 100%;
-    color: var(--mainTextColor);
-  }
-
-  .textarea-style {
-    height: 150px;
-    width: 100%;
-    border-color: var(--mainBorderColor);
-    outline: none;
-  }
-
-  .input-style:hover,
-  .button-style:hover,
-  .textarea-style:hover,
-  .input-style:focus,
-  .button-style:focus,
-  .textarea-style:focus {
-    color: var(--mainTextColor);
-    background-color: var(--mainBgColor);
-  }
-
-  .input-style:focus,
-  .button-style:focus,
-  .textarea-style:focus {
-    border: 1px solid var(--mainBorderColor-light);
-  }
-
-  .button-style:hover {
-    border: 1px solid var(--mainBorderColor-light);
-  }
-
-  .project {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .project-toggle {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  p.project-toggle{
-    margin: 0 0 10px 0;
-  }
-
-  .project-form {
-    display: none;
-  }
-</style>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -90,12 +11,27 @@
     projectToggles.forEach(function (toggle) {
       toggle.addEventListener('click', function (event) {
         event.preventDefault();
+
+        // Remove "active" class from all project toggles
+        projectToggles.forEach(function (toggle) {
+          toggle.classList.remove('active');
+        });
+
+        // Add "active" class to the clicked project toggle
+        this.classList.add('active');
+
+        // Toggle display of the corresponding project form
         var projectForm = this.nextElementSibling;
         projectForm.style.display = (projectForm.style.display === 'none' || projectForm.style.display === '') ? 'block' : 'none';
       });
     });
+
   });
 </script>
+
+<div class="gohome goto">
+  <a href="{% url 'home' %}">[ Home ]</a>
+</div>
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}

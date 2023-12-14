@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pics', blank=True, null=True)
     email = models.CharField(max_length=255)
     bio = models.CharField(max_length=255)
     github_url = models.URLField(max_length=255, null=True, blank= False)

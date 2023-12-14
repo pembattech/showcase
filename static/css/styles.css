@@ -79,6 +79,12 @@ li {
     line-height: 1.9em;
 }
 
+.authenticated_user {
+    display: flex;
+    gap: 10px;
+    position: fixed;
+}
+
 .authenticated_user a {
     cursor: default;
 }
@@ -87,6 +93,7 @@ li {
     max-width: 700px;
     margin: 0 auto;
     padding: 1em 1em 0;
+    z-index: 9;
 }
 
 .section--page {
@@ -280,4 +287,97 @@ a {
     .project-img img {
         width: 550px;
     }
+}
+
+form {
+    padding: 0 20px;
+}
+
+.goto>a, .authenticated_user .goto p {
+    color: var(--mainTextColor);
+}
+
+.goto>a:hover, .authenticated_user .goto p:hover {
+    color: var(--mainLinkColor);
+}
+
+.form-box {
+    display: flex;
+    gap: 25px;
+}
+
+.input-style,
+.button-style,
+.textarea-style {
+    color: var(--secondaryTextColor);
+    background-color: var(--mainBgColor);
+    padding: 10px;
+    border-radius: 5px;
+    resize: none;
+}
+
+.input-style {
+    width: 100%;
+    border: 1px solid var(--mainBorderColor);
+}
+
+.button-style {
+    border: 1px solid var(--mainBorderColor);
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    width: 100%;
+    color: var(--mainTextColor);
+}
+
+.textarea-style {
+    height: 150px;
+    width: 100%;
+    border-color: var(--mainBorderColor);
+    outline: none;
+}
+
+.input-style:hover,
+.button-style:hover,
+.textarea-style:hover,
+.input-style:focus,
+.button-style:focus,
+.textarea-style:focus {
+    color: var(--mainTextColor);
+    background-color: var(--mainBgColor);
+}
+
+.input-style:focus,
+.button-style:focus,
+.textarea-style:focus {
+    border: 1px solid var(--mainBorderColor-light);
+}
+
+.button-style:hover {
+    border: 1px solid var(--mainBorderColor-light);
+}
+
+.user_profile {
+    max-width: 450px;
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-toggle {
+    cursor: pointer;
+}
+
+p.project-toggle {
+    margin: 0 0 10px 0;
+}
+
+.project-form {
+    display: none;
+}
+
+.active {
+    font-weight: 900;
+    color: var(--mainTextColor);
 }

@@ -29,10 +29,6 @@ def home(request):
     else:
         return render(request, '404.html')
 
-from django.shortcuts import render, redirect, get_object_or_404
-from .models import UserProfile, TechStack, Project
-from .forms import UserProfileForm, TechStackForm, ProjectForm
-
 def update_showcase(request):
     if request.user.is_authenticated:
         username = request.user.username
@@ -41,22 +37,21 @@ def update_showcase(request):
         techstack = get_object_or_404(TechStack, user=user_profile)
         projects = Project.objects.filter(user=user_profile)
 
-        userprofile_form = UserProfileForm(instance=user_profile)
-        techstack_form = TechStackForm(instance=techstack)
-        project_forms = [ProjectForm(prefix=str(project.id), instance=project) for project in projects]
-        print(project_forms)
+        userprofile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
+        techstack_form = TechStackForm(request.POST or None, instance=techstack)
+        project_forms = [ProjectForm(request.POST or None, prefix=str(project.id), instance=project) for project in projects]
 
         if request.method == "POST":
-            userprofile_form = UserProfileForm(request.POST, instance=user_profile)
-            techstack_form = TechStackForm(request.POST, instance=techstack)
-            project_forms = [ProjectForm(request.POST, prefix=str(project.id), instance=project) for project in projects]
             
             if (
                 userprofile_form.is_valid()
                 and techstack_form.is_valid()
                 and all(project_form.is_valid() for project_form in project_forms)
-            ):
-                userprofile_form.save()
+                ):
+                user_profile = userprofile_form.save(commit=False)
+                user_profile.user = request.user  # Set the user manually since it's not part of the form
+                user_profile.save()
+                
                 techstack_form.save()
 
                 for project_form in project_forms:

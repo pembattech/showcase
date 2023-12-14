@@ -4,15 +4,23 @@
 
 {% if request.user.is_authenticated %}
 <div class="authenticated_user">
-    <a href="{% url 'update_showcase' %}">
-        <p> Hi {{ user }} </p>
-    </a>
+    <div class="update">
+        <a href="{% url 'update_showcase' %}">
+            <p> Hi {{ user }} </p>
+        </a>
+    </div>
+    
+    <div class="goto">
+        <a href="{% url 'logout' %}">
+            <p>[ Logout ]</p>
+        </a>
+    </div>
 </div>
 {% endif %}
 
 <div id="container--main">
     <section id="wrapper--hero" class="section--page">
-        <img id="profile-pic" src="">
+        <img id="profile-pic" src="{{ user_profile.profile_picture.url }}">
         <div>
             <h1 id="user-name">Pemba Tamang</h1>
             <p id="bio"> {{ user_profile.bio }}</p>

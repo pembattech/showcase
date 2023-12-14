@@ -8,6 +8,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = '__all__'
         exclude = ['user']
+        profile_picture = forms.ImageField(widget=forms.ClearableFileInput(attrs={'class': 'input-style'}))
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'input-style'}),
             'bio': forms.Textarea(attrs={'class': 'textarea-style'}),
