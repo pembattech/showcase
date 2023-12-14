@@ -39,6 +39,29 @@ body {
     background-color: var(--mainBgColor);
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 12px;
+    border-radius: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--mainBgColor-dark);
+    border-radius: 10px;
+
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 p,
 span,
 li {
@@ -56,6 +79,9 @@ li {
     line-height: 1.9em;
 }
 
+.authenticated_user a {
+    cursor: default;
+}
 
 #container--main {
     max-width: 700px;

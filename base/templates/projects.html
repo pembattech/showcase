@@ -1,4 +1,61 @@
 <div class="project-page">
+    {% for project in projects %}
+    {% if project.id|divisibleby:"2" == False %}
+    <section class="split card--project">
+        <div class="col--left">
+            <div id="img-one" class="project-img">
+                <img src="./static/files/project_previews/pen_and_page/Home_PenandPage.png">
+            </div>
+            <div id="img-two" class="project-img">
+                <img src="./static/files/project_previews/pen_and_page/Profile-Pen-and-Page.png">
+            </div>
+        </div>
+        <div class="col--right">
+            <div class="split__content--sticky">
+                <div class="split__content">
+                    <span>
+                        <a href="https://github.com/pembattech/pen-and-page" target="_blank">
+                            {{ project.project_title }}
+                        </a>
+                    </span>
+                    <p>{{ project.project_description }}</p>
+
+                    <a href="https://penandpage-pemba.vercel.app/" target="_blank" id="livedemo"> 🔗 Live Demo</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <section class="split card--project flex-col-reverse">
+            <div class="col col--left">
+                <div class="split__content--sticky">
+                    <div class="split__content">
+                        <a
+                            href="https://www.github.com/pembattech/hamropatroholidayscrape">
+                            {{ project.project_title }}
+                        </a>
+                        <p>
+                            {{ project.project_title }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col col--right">
+                <div id="img-one" class="project-img">
+                    <img src="./static/files/project_previews/pen_and_page/Home_PenandPage.png">
+                </div>
+                <div id="img-two" class="project-img">
+                    <img src="./static/files/project_previews/pen_and_page/Profile-Pen-and-Page.png">
+                </div>
+        </section>
+
+        {% endif %}
+    </section>
+    {% endfor %}
+
+
+
+    {% comment %}
+
     <section class="split card--project">
         <div class="col--left">
             <div id="img-one" class="project-img">
@@ -20,5 +77,7 @@
             </div>
         </div>
     </section>
+
+    {% endcomment %}
 
 </div>

@@ -4,7 +4,9 @@
 
 {% if request.user.is_authenticated %}
 <div class="authenticated_user">
-    <p> Hi {{ user }} </p>
+    <a href="{% url 'update_showcase' %}">
+        <p> Hi {{ user }} </p>
+    </a>
 </div>
 {% endif %}
 

@@ -26,6 +26,7 @@ class Project(models.Model):
     project_title = models.CharField(max_length=255)
     project_description = models.CharField(max_length=255)
     project_livedemo = models.CharField(max_length=255)
+    project_github_url = models.URLField(max_length=255, null=True, blank= False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     
     def __str__(self) -> str:

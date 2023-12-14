@@ -1,43 +1,131 @@
-<!-- update_user_profile.html -->
+{% extends 'base.html' %}
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Update User Profile</title>
-</head>
-
+{% block content %}
 <style>
-  .form-box{
+  form {
+    padding: 0 20px;
+  }
+
+  .form-box {
     display: flex;
+    gap: 25px;
+  }
+
+  .input-style,
+  .button-style,
+  .textarea-style {
+    color: var(--secondaryTextColor);
+    background-color: var(--mainBgColor);
+    padding: 10px;
+    border-radius: 5px;
+    resize: none;
+  }
+
+  .input-style {
+    width: 100%;
+    border: 1px solid var(--mainBorderColor);
+  }
+
+  .button-style {
+    border: 1px solid var(--mainBorderColor);
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    width: 100%;
+    color: var(--mainTextColor);
+  }
+
+  .textarea-style {
+    height: 150px;
+    width: 100%;
+    border-color: var(--mainBorderColor);
+    outline: none;
+  }
+
+  .input-style:hover,
+  .button-style:hover,
+  .textarea-style:hover,
+  .input-style:focus,
+  .button-style:focus,
+  .textarea-style:focus {
+    color: var(--mainTextColor);
+    background-color: var(--mainBgColor);
+  }
+
+  .input-style:focus,
+  .button-style:focus,
+  .textarea-style:focus {
+    border: 1px solid var(--mainBorderColor-light);
+  }
+
+  .button-style:hover {
+    border: 1px solid var(--mainBorderColor-light);
+  }
+
+  .project {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-toggle {
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  p.project-toggle{
+    margin: 0 0 10px 0;
+  }
+
+  .project-form {
+    display: none;
   }
 </style>
 
-<body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <h2>Update User Profile</h2>
 
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var projectToggles = document.querySelectorAll('.project-toggle');
 
-    <div class="form-box">
-      <div class="user_profile">
-        {{ userprofile_form.as_p }}
-      </div>
+    projectToggles.forEach(function (toggle) {
+      toggle.addEventListener('click', function (event) {
+        event.preventDefault();
+        var projectForm = this.nextElementSibling;
+        projectForm.style.display = (projectForm.style.display === 'none' || projectForm.style.display === '') ? 'block' : 'none';
+      });
+    });
+  });
+</script>
 
-      <div class="tech_stack">
-        {{ techstack_form.as_p }}
-      </div>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
 
-      <div class="project">
-        {{ project_form.as_p }}
-      </div>
+  <div class="form-box">
+
+    <div class="user_profile">
+      <h2>User Profile</h2>
+      {{ userprofile_form.as_p }}
     </div>
-    <button type="submit">Update Profile</button>
-  </form>
 
-</body>
+    <div class="tech_stack">
+      <h2>Tech Stack</h2>
+      {{ techstack_form.as_p }}
+    </div>
 
-</html>
+    <div class="project">
+      <h2>Project</h2>
+      {% for project_form in project_forms %}
+      <div class="project-section">
+        <p class="project-toggle">{{ project_form.instance.project_title }}</p>
+        <div class="project-form">
+          {{ project_form.as_p }}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+  <button class="button-style" type="submit">Update Profile</button>
+</form>
+
+{% endblock %}
