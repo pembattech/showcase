@@ -37,7 +37,6 @@
   {% csrf_token %}
 
   <div class="form-box">
-
     <div class="user_profile">
       <h2>User Profile</h2>
       {{ userprofile_form.as_p }}
@@ -49,7 +48,10 @@
     </div>
 
     <div class="project">
-      <h2>Project</h2>
+      <div class="title-and-new" style="display: flex; align-items: center;">
+        <h2 style="margin-right: 10px;">Project</h2>
+        <p id="add-project-btn" style="font-size: 24px; cursor: pointer;">+</p>
+      </div>
       {% for project_form in project_forms %}
       <div class="project-section">
         <p class="project-toggle">{{ project_form.instance.project_title }}</p>
@@ -58,10 +60,39 @@
         </div>
       </div>
       {% endfor %}
+
+      <div id="project-form-popup" style="display: none;">
+        <div class="new_project">
+          <h2>New Project</h2>
+          {{ new_project.as_p }}
+          <button class="button-style" type="submit">Update Profile</button>
+
+        </div>
+
+      </div>
     </div>
 
   </div>
   <button class="button-style" type="submit">Update Profile</button>
 </form>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<script>
+  document.getElementById('add-project-btn').addEventListener('click', function () {
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('project-form-popup').style.display = 'block';
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('project-form-popup').style.display = 'none';
+    }
+  });
+</script>
+
+
 
 {% endblock %}

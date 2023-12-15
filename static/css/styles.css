@@ -293,11 +293,13 @@ form {
     padding: 0 20px;
 }
 
-.goto>a, .authenticated_user .goto p {
+.goto>a,
+.authenticated_user .goto p {
     color: var(--mainTextColor);
 }
 
-.goto>a:hover, .authenticated_user .goto p:hover {
+.goto>a:hover,
+.authenticated_user .goto p:hover {
     color: var(--mainLinkColor);
 }
 
@@ -380,4 +382,39 @@ p.project-toggle {
 .active {
     font-weight: 900;
     color: var(--mainTextColor);
+}
+
+#add-project-btn:hover {
+    color: var(--mainLinkColor);
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.50);
+    display: none;
+}
+
+#project-form-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: var(--mainBgColor);
+    transform: translate(-50%, -50%);
+    padding: 5px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 9;
+}
+
+#project-form-popup h2 {
+    margin: 0;
+    padding: 0;
+}
+
+.new_project {
+    padding: 10px;
 }

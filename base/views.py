@@ -40,6 +40,7 @@ def update_showcase(request):
         userprofile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
         techstack_form = TechStackForm(request.POST or None, instance=techstack)
         project_forms = [ProjectForm(request.POST or None, prefix=str(project.id), instance=project) for project in projects]
+        new_project_form = ProjectForm()
 
         if request.method == "POST":
             
@@ -56,6 +57,13 @@ def update_showcase(request):
 
                 for project_form in project_forms:
                     project_form.save()
+                    
+                new_project_form = ProjectForm(request.POST)
+                if new_project_form.is_valid():
+                    new_project = new_project_form.save(commit=False)
+                    new_project.user = request.user.userprofile
+                    new_project.save()
+                    
 
                 return redirect('home')
                 
@@ -63,10 +71,11 @@ def update_showcase(request):
             'userprofile_form': userprofile_form,
             'techstack_form': techstack_form,
             'project_forms': project_forms,
+            'new_project': new_project_form,
         })
     else:
         return render(request, '404.html')
-
+    
 def logout_user(request):
     if request.user.is_authenticated:
         username = request.user.username
