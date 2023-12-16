@@ -79,11 +79,15 @@ li {
     line-height: 1.9em;
 }
 
-.authenticated_user {
+.navigate {
     display: flex;
     gap: 10px;
+}
+
+.authenticated_user {
     position: fixed;
 }
+
 
 .authenticated_user a {
     cursor: default;
@@ -365,18 +369,32 @@ form {
 .project {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .project-toggle {
     cursor: pointer;
 }
 
-p.project-toggle {
-    margin: 0 0 10px 0;
-}
-
 .project-form {
     display: none;
+}
+
+.title-and-deletebtn {
+    display: flex;
+    align-items: center;
+}
+
+.delete-btn {
+    width: fit-content;
+    color: var(--mainTextColor);
+    padding: 5px;
+
+}
+
+.delete-btn:hover {
+    color: red;
+    border-color: red;
 }
 
 .active {
@@ -396,25 +414,4 @@ p.project-toggle {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.50);
     display: none;
-}
-
-#project-form-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    background-color: var(--mainBgColor);
-    transform: translate(-50%, -50%);
-    padding: 5px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-    display: none;
-    z-index: 9;
-}
-
-#project-form-popup h2 {
-    margin: 0;
-    padding: 0;
-}
-
-.new_project {
-    padding: 10px;
 }

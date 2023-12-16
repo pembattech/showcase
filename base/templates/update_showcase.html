@@ -2,35 +2,21 @@
 
 {% block content %}
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .delete-btn {
+    cursor: pointer;
+    margin-left: 10px;
+  }
+</style>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    var projectToggles = document.querySelectorAll('.project-toggle');
+<div class="navigate">
+  <div class="goto">
+    <a href="{% url 'home' %}">[ Home ]</a>
+  </div>
 
-    projectToggles.forEach(function (toggle) {
-      toggle.addEventListener('click', function (event) {
-        event.preventDefault();
-
-        // Remove "active" class from all project toggles
-        projectToggles.forEach(function (toggle) {
-          toggle.classList.remove('active');
-        });
-
-        // Add "active" class to the clicked project toggle
-        this.classList.add('active');
-
-        // Toggle display of the corresponding project form
-        var projectForm = this.nextElementSibling;
-        projectForm.style.display = (projectForm.style.display === 'none' || projectForm.style.display === '') ? 'block' : 'none';
-      });
-    });
-
-  });
-</script>
-
-<div class="gohome goto">
-  <a href="{% url 'home' %}">[ Home ]</a>
+  <div class="goto">
+    <a href="{% url 'logout' %}">[ Logout ]</a>
+  </div>
 </div>
 
 <form method="post" enctype="multipart/form-data">
@@ -50,49 +36,48 @@
     <div class="project">
       <div class="title-and-new" style="display: flex; align-items: center;">
         <h2 style="margin-right: 10px;">Project</h2>
-        <p id="add-project-btn" style="font-size: 24px; cursor: pointer;">+</p>
+        <a href="{% url 'new' %}">
+          <p id="add-project-btn" style="font-size: 24px; cursor: pointer;">+</p>
+        </a>
       </div>
       {% for project_form in project_forms %}
       <div class="project-section">
-        <p class="project-toggle">{{ project_form.instance.project_title }}</p>
+        <div class="title-and-deletebtn">
+          <p class="project-toggle">{{ project_form.instance.project_title }}</p>
+          <a href="{% url 'delete_project' project_form.instance.id %}" class="delete-btn button-style">Delete</a>
+        </div>
+
         <div class="project-form">
           {{ project_form.as_p }}
         </div>
       </div>
       {% endfor %}
-
-      <div id="project-form-popup" style="display: none;">
-        <div class="new_project">
-          <h2>New Project</h2>
-          {{ new_project.as_p }}
-          <button class="button-style" type="submit">Update Profile</button>
-
-        </div>
-
-      </div>
     </div>
 
   </div>
   <button class="button-style" type="submit">Update Profile</button>
 </form>
 
-<!-- Overlay -->
-<div id="overlay"></div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  document.getElementById('add-project-btn').addEventListener('click', function () {
-    document.getElementById('overlay').style.display = 'block';
-    document.getElementById('project-form-popup').style.display = 'block';
-  });
+  $(document).ready(function () {
+    $('.title-and-deletebtn').on('click', function () {
+      // Remove "active" class from all project toggles
+      $('.project-toggle').removeClass('active');
 
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-      document.getElementById('overlay').style.display = 'none';
-      document.getElementById('project-form-popup').style.display = 'none';
-    }
+      // Add "active" class to the clicked project toggle within the clicked element
+      $(this).find('.project-toggle').addClass('active');
+
+      // Toggle display of the corresponding project form within the clicked element
+      var projectForm = $(this).next('.project-form');
+      projectForm.toggle();
+    });
+
+    // Prevent form from toggling when clicking on delete button
+    $('.delete-btn').on('click', function (event) {
+      event.stopPropagation();
+    });
   });
 </script>
-
-
 
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if request.user.is_authenticated %}
-<div class="authenticated_user">
+<div class="authenticated_user navigate">
     <div class="update">
         <a href="{% url 'update_showcase' %}">
             <p> Hi {{ user }} </p>

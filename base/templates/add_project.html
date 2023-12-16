@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="navigate">
+  <div class="goto">
+    <a href="{% url 'home' %}">[ Home ]</a>
+  </div>
+
+  <div class="goto">
+    <a href="{% url 'logout' %}">[ Logout ]
+    </a>
+  </div>
+
+  <div class="goto">
+    <a href="{% url 'update_showcase' %}">[ Update Showcase ]</a>
+  </div>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div id="project-form-popup">
+    <div class="new_project">
+      <h2>New Project</h2>
+      {{ new_project.as_p }}
+      <button class="button-style" type="submit" name="submit_new_project">Add Project</button>
+    </div>
+  </div>
+</form>
+
+{% endblock %}

@@ -39,4 +39,7 @@ class ProjectForm(forms.ModelForm):
             'project_description': forms.Textarea(attrs={'class': 'textarea-style'}),
             'project_github_url': forms.URLInput(attrs={'class': 'input-style'}),
             'project_livedemo': forms.URLInput(attrs={'class': 'input-style'}),
+            'project_img1': forms.ClearableFileInput(attrs={'class': 'input-style'}),
+            'project_img2': forms.ClearableFileInput(attrs={'class': 'input-style'}),
+            
         }

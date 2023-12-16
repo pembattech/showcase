@@ -29,6 +29,8 @@ class Project(models.Model):
     project_livedemo = models.CharField(max_length=255)
     project_github_url = models.URLField(max_length=255, null=True, blank= False)
     user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    project_img1 = models.ImageField(null=True, blank=False)
+    project_img2 = models.ImageField(null=True, blank=False)
     
     def __str__(self) -> str:
         return self.project_title

@@ -19,7 +19,6 @@ def home(request):
         tech_stacks = TechStack.objects.filter(user=user_profile_instance).first()
         project_instances = Project.objects.filter(user=user_profile_instance)
 
-        print(project_instances)
         context = {
             "user_profile": user_profile_instance,
             "tech_stack": tech_stacks,
@@ -30,49 +29,91 @@ def home(request):
         return render(request, '404.html')
 
 def update_showcase(request):
-    if request.user.is_authenticated:
-        username = request.user.username
-        
-        user_profile = get_object_or_404(UserProfile, user__username=username)
-        techstack = get_object_or_404(TechStack, user=user_profile)
-        projects = Project.objects.filter(user=user_profile)
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        return render(request, '404.html')
 
-        userprofile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
-        techstack_form = TechStackForm(request.POST or None, instance=techstack)
-        project_forms = [ProjectForm(request.POST or None, prefix=str(project.id), instance=project) for project in projects]
-        new_project_form = ProjectForm()
+    username = request.user.username
+    user_profile = get_object_or_404(UserProfile, user__username=username)
+    techstack = get_object_or_404(TechStack, user=user_profile)
+    projects = Project.objects.filter(user=user_profile)
 
-        if request.method == "POST":
-            
-            if (
-                userprofile_form.is_valid()
-                and techstack_form.is_valid()
-                and all(project_form.is_valid() for project_form in project_forms)
-                ):
-                user_profile = userprofile_form.save(commit=False)
-                user_profile.user = request.user  # Set the user manually since it's not part of the form
-                user_profile.save()
-                
-                techstack_form.save()
+    # Initialize forms
+    userprofile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
+    techstack_form = TechStackForm(request.POST or None, instance=techstack)
+    project_forms = [ProjectForm(request.POST or None, request.FILES or None, prefix=str(project.id), instance=project) for project in projects]
+    new_project_form = ProjectForm(request.POST or None, request.FILES or None)
 
-                for project_form in project_forms:
-                    project_form.save()
-                    
-                new_project_form = ProjectForm(request.POST)
+    # Check if the request method is POST
+    if request.method == "POST":
+        # Validate forms
+        if (
+            userprofile_form.is_valid()
+            and techstack_form.is_valid()
+            and all(project_form.is_valid() for project_form in project_forms)
+        ):
+            # Update user profile
+            user_profile = userprofile_form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+
+            # Update tech stack
+            techstack_form.save(commit=False)
+            techstack_form.user = request.user
+            techstack_form.save()
+
+            # Update existing projects
+            for project_form in project_forms:
+                project_form.save(commit=False)
+                project_form.user = request.user
+                project_form.save()
+
+            # Check if a new project is submitted
+            if "submit_new_project" in request.POST:
+                new_project_form = ProjectForm(request.POST, request.FILES)
                 if new_project_form.is_valid():
+                    # Save the new project
                     new_project = new_project_form.save(commit=False)
                     new_project.user = request.user.userprofile
                     new_project.save()
-                    
 
-                return redirect('home')
-                
-        return render(request, 'update_showcase.html', {
-            'userprofile_form': userprofile_form,
-            'techstack_form': techstack_form,
-            'project_forms': project_forms,
-            'new_project': new_project_form,
-        })
+            return redirect('home')
+
+    # Render the update_showcase template with the forms
+    return render(request, 'update_showcase.html', {
+        'userprofile_form': userprofile_form,
+        'techstack_form': techstack_form,
+        'project_forms': project_forms,
+        'new_project': new_project_form,
+    })
+
+def add_project(request):
+    if not request.user.is_authenticated:
+        return render(request, '404.html')
+
+    # Initialize forms
+    new_project_form = ProjectForm(request.POST or None, request.FILES or None)
+
+    # Check if the request method is POST
+    if request.method == "POST":
+        new_project_form = ProjectForm(request.POST, request.FILES)
+        if new_project_form.is_valid():
+            # Save the new project
+            new_project = new_project_form.save(commit=False)
+            new_project.user = request.user.userprofile
+            new_project.save()
+
+        return redirect('home')
+
+    return render(request, 'add_project.html', {
+        'new_project': new_project_form,
+    })
+
+def delete_project(request, project_id):
+    if request.user.is_authenticated:
+        project = get_object_or_404(Project, id=project_id, user=request.user.userprofile)
+        project.delete()
+        return redirect('update_showcase')
     else:
         return render(request, '404.html')
     
