@@ -8,5 +8,4 @@ urlpatterns = [
     path('delete_project/<int:project_id>/', delete_project, name='delete_project'),
     path("login/", login_user, name ="login"),
     path("logout/", logout_user, name ="logout"),
-    path("register/", register_user, name ="register"),
 ]

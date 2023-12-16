@@ -4,10 +4,18 @@
     <section class="split card--project">
         <div class="col--left">
             <div id="img-one" class="project-img">
+                {% if project.project_img1 %}
                 <img src="{{ project.project_img1.url }}">
+                {% else %}
+                <img src="" alt="Project Image">
+                {% endif %}
             </div>
             <div id="img-two" class="project-img">
+                {% if project.project_img2 %}
                 <img src="{{ project.project_img2.url }}">
+                {% else %}
+                <img src="" alt="Project Image">
+                {% endif %}
             </div>
         </div>
         <div class="col--right">
@@ -45,10 +53,18 @@
             </div>
             <div class="col col--right">
                 <div id="img-one" class="project-img">
+                    {% if project.project_img1 %}
                     <img src="{{ project.project_img1.url }}">
+                    {% else %}
+                    <img src="" alt="Project Image">
+                    {% endif %}
                 </div>
                 <div id="img-two" class="project-img">
+                    {% if project.project_img2 %}
                     <img src="{{ project.project_img2.url }}">
+                    {% else %}
+                    <img src="" alt="Project Image">
+                    {% endif %}
                 </div>
         </section>
 

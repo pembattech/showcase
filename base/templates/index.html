@@ -9,7 +9,7 @@
             <p> Hi {{ user }} </p>
         </a>
     </div>
-    
+
     <div class="goto">
         <a href="{% url 'logout' %}">
             <p>[ Logout ]</p>
@@ -20,7 +20,11 @@
 
 <div id="container--main">
     <section id="wrapper--hero" class="section--page">
+        {% if user_profile.profile_picture %}
         <img id="profile-pic" src="{{ user_profile.profile_picture.url }}">
+        {% else %}
+        <img src="" alt="Profile Picture">
+        {% endif %}
         <div>
             <h1 id="user-name">Pemba Tamang</h1>
             <p id="bio"> {{ user_profile.bio }}</p>

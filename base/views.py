@@ -11,7 +11,8 @@ def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
 def home(request):
-    user_profile_instances = UserProfile.objects.get(id=1)
+    # try: 
+    user_profile_instances = UserProfile.objects.all().first()
     user_profile_instance = user_profile_instances
 
     # Check if user_profile_instance is not None before proceeding
@@ -35,14 +36,17 @@ def update_showcase(request):
 
     username = request.user.username
     user_profile = get_object_or_404(UserProfile, user__username=username)
-    techstack = get_object_or_404(TechStack, user=user_profile)
     projects = Project.objects.filter(user=user_profile)
+    techstack = TechStack.objects.filter(user=user_profile).first()
 
     # Initialize forms
     userprofile_form = UserProfileForm(request.POST or None, request.FILES or None, instance=user_profile)
+
+    if not techstack:
+        techstack = TechStack(user=user_profile)
+
     techstack_form = TechStackForm(request.POST or None, instance=techstack)
     project_forms = [ProjectForm(request.POST or None, request.FILES or None, prefix=str(project.id), instance=project) for project in projects]
-    new_project_form = ProjectForm(request.POST or None, request.FILES or None)
 
     # Check if the request method is POST
     if request.method == "POST":
@@ -68,15 +72,6 @@ def update_showcase(request):
                 project_form.user = request.user
                 project_form.save()
 
-            # Check if a new project is submitted
-            if "submit_new_project" in request.POST:
-                new_project_form = ProjectForm(request.POST, request.FILES)
-                if new_project_form.is_valid():
-                    # Save the new project
-                    new_project = new_project_form.save(commit=False)
-                    new_project.user = request.user.userprofile
-                    new_project.save()
-
             return redirect('home')
 
     # Render the update_showcase template with the forms
@@ -84,7 +79,6 @@ def update_showcase(request):
         'userprofile_form': userprofile_form,
         'techstack_form': techstack_form,
         'project_forms': project_forms,
-        'new_project': new_project_form,
     })
 
 def add_project(request):
@@ -124,19 +118,6 @@ def logout_user(request):
         return redirect("home")
     else:
         return render(request, '404.html')
-
-def register_user(request):
-    if request.method == "POST":
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]
-            password = form.cleaned_data["password"]
-            form.save()
-            return redirect("login")
-    else:
-        form = UserCreationForm()
-
-    return render(request, "register.html", {"form": form})
 
 def login_user(request):
     if request.method == "POST":
