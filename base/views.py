@@ -137,3 +137,18 @@ def login_user(request):
             return HttpResponse("Error occur in login.")
     else:
         return render(request, "login.html")
+    
+def register(request):
+    if request.method == 'POST':
+        user_form = UserCreationForm(request.POST)
+        user_profile_form = UserProfileForm(request.POST, request.FILES)
+        if user_form.is_valid() and user_profile_form.is_valid():
+            user = user_form.save()
+            user_profile = user_profile_form.save(commit=False)
+            user_profile.user = user
+            user_profile.save()
+            return redirect('home')
+    else:
+        user_form = UserCreationForm()
+        user_profile_form = UserProfileForm()
+    return render(request, 'register.html', {'user_form': user_form, 'user_profile_form': user_profile_form})
