@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'showcase.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('ENGINE'),
+        'ENGINE': os.getenv('db_ENGINE'),
         'NAME': os.getenv('db_NAME'),
         'USER': os.getenv('db_USER'),
         'PASSWORD': os.getenv('db_PASSWORD'),
